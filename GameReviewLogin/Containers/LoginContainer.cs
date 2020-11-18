@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GameReviewLogin.Containers
 {
-    class LoginContainer
+    public class LoginContainer
     {
         
     }
