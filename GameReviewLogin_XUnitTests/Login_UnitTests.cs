@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
-namespace GameReviewLogin_XUnitTests
+namespace GameReviewAuthentication_XUnitTests
 {
     public class Login_UnitTests
     {
