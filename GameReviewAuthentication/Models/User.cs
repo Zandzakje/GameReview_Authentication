@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GameReviewAuthentication.Models
 {
-    public class UserViewModel
+    public class User
     {
         [Required(ErrorMessage = "Username is required.")]
         public string Username { get; set; }

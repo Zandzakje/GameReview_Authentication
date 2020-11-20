@@ -14,8 +14,9 @@ namespace GameReviewAuthentication.Controllers
     public class LoginController : ControllerBase
     {
         [HttpPost]
-        public void TestFunction(LoginViewModel loginViewModel)
+        public void TestFunction(Login loginViewModel)
         {
+            // username: dbi406383_gmrvwauth, password: EXtremelyS4f3Passw0rd
             Console.WriteLine(loginViewModel.Username + ", " + loginViewModel.Password + " functie wordt aangeroepen! :D");
         }
     }

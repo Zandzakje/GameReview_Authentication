@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace GameReviewAuthentication.Models
 {
-    public class RegisterViewModel : UserViewModel
+    public class Login : User
     {
-        public string ConfirmPassword { get; set; }
+
     }
 }
