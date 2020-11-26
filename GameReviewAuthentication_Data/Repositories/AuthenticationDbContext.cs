@@ -13,6 +13,6 @@ namespace GameReviewAuthentication_Data.Repositories
 
         }
 
-        public DbSet<LoginDTO> Logins { get; set; }
+        public DbSet<LoginDTO> Users { get; set; }
     }
 }

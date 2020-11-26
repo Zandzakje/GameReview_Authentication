@@ -17,15 +17,6 @@ namespace GameReviewAuthentication.Controllers
     [Produces("application/json")]
     public class LoginController : ControllerBase
     {
-        // db gegevens
-        // username: dbi406383_gmrvwauth, password: EXtremelyS4f3Passw0rd
-
-        //[HttpPost]
-        //public void TestFunction(Login loginViewModel)
-        //{
-        //    Console.WriteLine(loginViewModel.Username + ", " + loginViewModel.Password + " functie wordt aangeroepen! :D");
-        //}
-
         private readonly IAuthenticationContext _repository;
 
         public LoginController(IAuthenticationContext repository)
