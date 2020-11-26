@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GameReviewAuthentication_Data.Interfaces;
+using GameReviewAuthentication_Data.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +28,9 @@ namespace GameReviewAuthentication
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            // Change between mock and database here
+            services.AddScoped<IAuthenticationContext, AuthenticationMemoryContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
