@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace GameReviewAuthentication_Data.DTOs
+namespace GameReviewAuthentication_Data.Dtos
 {
-    public class UserDTO
+    public class UserDto
     {
         [Key]
         public int UserId { get; set; }

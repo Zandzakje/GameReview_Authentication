@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameReviewAuthentication_Data.DTOs
+namespace GameReviewAuthentication_Data.Dtos
 {
-    public class LoginDTO : UserDTO
+    public class LoginDto : UserDto
     {
     }
 }

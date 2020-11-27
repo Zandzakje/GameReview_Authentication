@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using GameReviewAuthentication_Data.DTOs;
+using GameReviewAuthentication_Data.Dtos;
 using Microsoft.EntityFrameworkCore;
 
 namespace GameReviewAuthentication_Data.Repositories
@@ -13,6 +13,6 @@ namespace GameReviewAuthentication_Data.Repositories
 
         }
 
-        public DbSet<LoginDTO> Users { get; set; }
+        public DbSet<LoginDto> Users { get; set; }
     }
 }

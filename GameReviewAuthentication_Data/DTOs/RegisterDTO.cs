@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GameReviewAuthentication_Data.DTOs
+namespace GameReviewAuthentication_Data.Dtos
 {
-    public class RegisterDTO : UserDTO
+    public class RegisterDto : UserDto
     {
         public string ConfirmPassword { get; set; }
     }

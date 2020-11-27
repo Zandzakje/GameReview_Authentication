@@ -1,4 +1,4 @@
-﻿using GameReviewAuthentication_Data.DTOs;
+﻿using GameReviewAuthentication_Data.Dtos;
 using GameReviewAuthentication_Data.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ namespace GameReviewAuthentication_Data.Repositories
             _context = context;
         }
 
-        public LoginDTO GetUserByInput(string username, string password)
+        public LoginDto GetUserByInput(string username, string password)
         {
             return _context.Users.FirstOrDefault(u => u.Username == username && u.Password == password);
             //throw new NotImplementedException();

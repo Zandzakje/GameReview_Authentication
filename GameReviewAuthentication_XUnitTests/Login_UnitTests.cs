@@ -1,4 +1,4 @@
-﻿using GameReviewAuthentication_Data.DTOs;
+﻿using GameReviewAuthentication_Data.Dtos;
 using GameReviewAuthentication_Data.Repositories;
 using System;
 using System.Collections.Generic;
@@ -25,7 +25,7 @@ namespace GameReviewAuthentication_XUnitTests
             AuthenticationMemoryContext mockDb = new AuthenticationMemoryContext();
 
             // Act
-            LoginDTO user = mockDb.GetUserByInput(username, password);
+            LoginDto user = mockDb.GetUserByInput(username, password);
 
             // Assert
             Assert.NotNull(user);
@@ -39,7 +39,7 @@ namespace GameReviewAuthentication_XUnitTests
             AuthenticationMemoryContext mockDb = new AuthenticationMemoryContext();
 
             // Act
-            LoginDTO user = mockDb.GetUserByInput(username, password);
+            LoginDto user = mockDb.GetUserByInput(username, password);
 
             // Assert
             Assert.Null(user);
