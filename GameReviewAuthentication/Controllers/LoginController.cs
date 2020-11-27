@@ -31,11 +31,19 @@ namespace GameReviewAuthentication.Controllers
         public ActionResult <Login> GetUserByInput(string username, string password)
         {
             LoginDTO result = _repository.GetUserByInput(username, password);
-            Login matchingUser = new Login
+            Login matchingUser;
+            if(result != null)
             {
-                Username = result.Username,
-                Administrator = result.Administrator
-            };
+                matchingUser = new Login
+                {
+                    Username = result.Username,
+                    Administrator = result.Administrator
+                };
+            }
+            else
+            {
+                matchingUser = new Login();
+            }
             return matchingUser;
             //return Ok(matchingUser);
         }

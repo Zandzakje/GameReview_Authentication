@@ -34,7 +34,8 @@ namespace GameReviewAuthentication
             services.AddControllers();
 
             // Change between mock and database here
-            services.AddScoped<IAuthenticationContext, AuthenticationMemoryContext>();
+            //services.AddScoped<IAuthenticationContext, AuthenticationMemoryContext>();
+            services.AddScoped<IAuthenticationContext, AuthenticationSqlContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
