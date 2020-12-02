@@ -16,10 +16,29 @@ namespace GameReviewAuthentication_Data.Repositories
             _context = context;
         }
 
+        public void CreateUser(LoginDto newUser)
+        {
+            if(newUser == null)
+            {
+                throw new ArgumentNullException(nameof(newUser));
+            }
+
+            _context.Users.Add(newUser);
+        }
+
+        public LoginDto GetUserById(int userId)
+        {
+            return _context.Users.FirstOrDefault(u => u.UserId == userId);
+        }
+
         public LoginDto GetUserByInput(string username, string password)
         {
             return _context.Users.FirstOrDefault(u => u.Username == username && u.Password == password);
-            //throw new NotImplementedException();
+        }
+
+        public bool SaveChanges()
+        {
+            return _context.SaveChanges() >= 0;
         }
     }
 }
