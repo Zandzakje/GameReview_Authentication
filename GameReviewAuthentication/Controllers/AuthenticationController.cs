@@ -23,8 +23,8 @@ namespace GameReviewAuthentication.Controllers
             _repository = repository;
         }
 
-        //GET apí/authentication/{id}
-        [HttpGet("{id}", Name = "GetUserById")]
+        //GET apí/authentication/{userId}
+        [HttpGet("{userId}", Name = "GetUserById")]
         public ActionResult <Login> GetUserById(int userId)
         {
             LoginDto result = _repository.GetUserById(userId);
