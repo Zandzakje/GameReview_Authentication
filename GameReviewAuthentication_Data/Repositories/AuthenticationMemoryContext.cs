@@ -8,33 +8,38 @@ namespace GameReviewAuthentication_Data.Repositories
 {
     public class AuthenticationMemoryContext : IAuthenticationContext
     {
-        public void CreateUser(LoginDto newUser)
+        public List<LoginDto> mockDb = new List<LoginDto>
         {
-            List<LoginDto> mockDb = new List<LoginDto>();
-            mockDb.Add(new LoginDto { UserId = 1, Username = "Padoru", Password = "umu!", Administrator = 1 });
-            mockDb.Add(new LoginDto { UserId = 2, Username = "Test", Password = "test123", Administrator = 0 });
-            mockDb.Add(new LoginDto { UserId = 3, Username = "Saber", Password = "ArtoriaPendragon", Administrator = 0 });
-            mockDb.Add(new LoginDto { UserId = 4, Username = newUser.Username, Password = newUser.Password, Administrator = 0 });
-        }
+            new LoginDto(1, "Padoru", "umu!", 1),
+            new LoginDto(2, "test", "test", 0),
+            new LoginDto(3, "Saber", "ArtoriaPendragon", 0)
+        };
 
-        public LoginDto GetUserById(int userId)
+        public LoginDto GetUserById(int id)
         {
-            List<LoginDto> mockDb = new List<LoginDto>();
-            mockDb.Add(new LoginDto { UserId = 1, Username = "Padoru", Password = "umu!", Administrator = 1 });
-            mockDb.Add(new LoginDto { UserId = 2, Username = "Test", Password = "test123", Administrator = 0 });
-            mockDb.Add(new LoginDto { UserId = 3, Username = "Saber", Password = "ArtoriaPendragon", Administrator = 0 });
-            LoginDto result = mockDb.Find(a => a.UserId == userId);
+            LoginDto result = mockDb.Find(a => a.UserId == id);
             return result;
         }
 
         public LoginDto GetUserByInput(string username, string password)
         {
-            List<LoginDto> mockDb = new List<LoginDto>();
-            mockDb.Add(new LoginDto { UserId = 1, Username = "Padoru", Password = "umu!", Administrator = 1 });
-            mockDb.Add(new LoginDto { UserId = 2, Username = "Test", Password = "test123", Administrator = 0 });
-            mockDb.Add(new LoginDto { UserId = 3, Username = "Saber", Password = "ArtoriaPendragon", Administrator = 0 });
             LoginDto result = mockDb.Find(e => e.Username == username && e.Password == password);
             return result;
+        }
+
+        public void CreateUser(LoginDto user)
+        {
+            mockDb.Add(new LoginDto(4, user.Username, user.Password, user.Administrator));
+        }
+
+        public void UpdateUser(LoginDto user)
+        {
+            LoginDto findUser = mockDb.Find(a => a.UserId == user.UserId);
+            if(findUser != null)
+            {
+                findUser.Username = user.Username;
+                findUser.Password = user.Password;
+            }
         }
 
         public bool SaveChanges()

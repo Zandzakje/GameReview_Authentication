@@ -23,27 +23,21 @@ namespace GameReviewAuthentication.Controllers
             _repository = repository;
         }
 
-        //GET apí/authentication/{userId}
-        [HttpGet("{userId}", Name = "GetUserById")]
-        public ActionResult <Login> GetUserById(int userId)
+        //GET apí/authentication/{id}
+        [HttpGet("{id}", Name = "GetUserById")]
+        public ActionResult <Login> GetUserById(int id)
         {
-            LoginDto result = _repository.GetUserById(userId);
+            LoginDto result = _repository.GetUserById(id);
             Login matchingUser;
             if (result != null)
             {
-                matchingUser = new Login
-                {
-                    UserId = result.UserId,
-                    Username = result.Username,
-                    Administrator = result.Administrator
-                };
+                matchingUser = new Login(result.UserId, result.Username, result.Password);
             }
             else
             {
                 matchingUser = new Login();
             }
             return matchingUser;
-            //return Ok(matchingUser);
         }
 
         //GET api/authentication/getUserByInput?username=a&password=b
@@ -54,19 +48,13 @@ namespace GameReviewAuthentication.Controllers
             Login matchingUser;
             if(result != null)
             {
-                matchingUser = new Login
-                {
-                    UserId = result.UserId,
-                    Username = result.Username,
-                    Administrator = result.Administrator
-                };
+                matchingUser = new Login(result.UserId, result.Username, result.Administrator);
             }
             else
             {
                 matchingUser = new Login();
             }
             return matchingUser;
-            //return Ok(matchingUser);
         }
 
         //POST api/authentication
@@ -78,21 +66,31 @@ namespace GameReviewAuthentication.Controllers
                 return NotFound();
             }
 
-            LoginDto newUser = new LoginDto
-            {
-                Username = potentialUser.Username,
-                Password = potentialUser.Password
-            };
-            Login tempUser = new Login
-            {
-                Username = potentialUser.Username,
-                Password = potentialUser.Password
-            };
-            _repository.CreateUser(newUser);
+            LoginDto user = new LoginDto(potentialUser.Username, potentialUser.Password);
+            Login tempUser = new Login(potentialUser.Username, potentialUser.Password);
+
+            _repository.CreateUser(user);
             _repository.SaveChanges();
 
             //return tempUser;
             return CreatedAtRoute(/*nameof(GetUserById)*/"GetUserById", new { Id = tempUser.UserId }, tempUser);
+        }
+
+        //PUT api/authentication/{id}
+        [HttpPut("{id}")]
+        public ActionResult UpdateUser(int id, Login user)
+        {
+            LoginDto updatedUser = new LoginDto(id, user.Username, user.Password);
+            LoginDto oldUser = _repository.GetUserById(id);
+            if(oldUser == null)
+            {
+                return NotFound();
+            }
+
+            _repository.UpdateUser(updatedUser);
+            _repository.SaveChanges();
+
+            return NoContent();
         }
     }
 }

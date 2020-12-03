@@ -7,9 +7,10 @@ namespace GameReviewAuthentication_Data.Interfaces
 {
     public interface IAuthenticationContext
     {
-        bool SaveChanges();
-        LoginDto GetUserById(int userId);
+        LoginDto GetUserById(int id);
         LoginDto GetUserByInput(string username, string password);
-        void CreateUser(LoginDto newUser);
+        void CreateUser(LoginDto user);
+        void UpdateUser(LoginDto user);
+        bool SaveChanges();
     }
 }

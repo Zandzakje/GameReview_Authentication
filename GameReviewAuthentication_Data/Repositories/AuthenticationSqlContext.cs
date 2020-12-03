@@ -16,16 +16,6 @@ namespace GameReviewAuthentication_Data.Repositories
             _context = context;
         }
 
-        public void CreateUser(LoginDto newUser)
-        {
-            if(newUser == null)
-            {
-                throw new ArgumentNullException(nameof(newUser));
-            }
-
-            _context.Users.Add(newUser);
-        }
-
         public LoginDto GetUserById(int userId)
         {
             return _context.Users.FirstOrDefault(u => u.UserId == userId);
@@ -39,6 +29,22 @@ namespace GameReviewAuthentication_Data.Repositories
         public bool SaveChanges()
         {
             return _context.SaveChanges() >= 0;
+        }
+
+        public void CreateUser(LoginDto user)
+        {
+            if(user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+
+            _context.Users.Add(user);
+        }
+
+        public void UpdateUser(LoginDto user)
+        {
+            // Nothing
+            //throw new NotImplementedException();
         }
     }
 }
