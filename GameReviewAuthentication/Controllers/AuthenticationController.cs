@@ -25,7 +25,7 @@ namespace GameReviewAuthentication.Controllers
 
         //GET apí/authentication/{id}
         [HttpGet("{id}", Name = "GetUserById")]
-        public ActionResult <Login> GetUserById(int id)
+        public ActionResult<Login> GetUserById(int id)
         {
             LoginDto result = _repository.GetUserById(id);
             Login matchingUser;
@@ -41,12 +41,13 @@ namespace GameReviewAuthentication.Controllers
         }
 
         //GET api/authentication/getUserByInput?username=a&password=b
-        [HttpGet("getUserByInput")]
-        public ActionResult <Login> GetUserByInput(string username, string password)
+        //GET api/authentication
+        [HttpPost]
+        public ActionResult<Login> GetUserByInput(Login user)
         {
-            LoginDto result = _repository.GetUserByInput(username, password);
+            LoginDto result = _repository.GetUserByInput(user.Username, user.Password);
             Login matchingUser;
-            if(result != null)
+            if (result != null)
             {
                 matchingUser = new Login(result.UserId, result.Username, result.Administrator);
             }
@@ -59,9 +60,9 @@ namespace GameReviewAuthentication.Controllers
 
         //POST api/authentication
         [HttpPost]
-        public ActionResult <Login> CreateUser(Register potentialUser)
+        public ActionResult<Login> CreateUser(Register potentialUser)
         {
-            if(potentialUser.Password != potentialUser.ConfirmPassword)
+            if (potentialUser.Password != potentialUser.ConfirmPassword)
             {
                 return NotFound();
             }
@@ -82,12 +83,33 @@ namespace GameReviewAuthentication.Controllers
         {
             LoginDto updatedUser = new LoginDto(id, user.Username, user.Password);
             LoginDto oldUser = _repository.GetUserById(id);
-            if(oldUser == null)
+            if (oldUser == null)
             {
                 return NotFound();
             }
 
+            if (!TryValidateModel(updatedUser))
+            {
+                return ValidationProblem(ModelState);
+            }
+
             _repository.UpdateUser(updatedUser);
+            _repository.SaveChanges();
+
+            return NoContent();
+        }
+
+        //DELETE api/authentication/{id}
+        [HttpDelete("{id}")]
+        public ActionResult DeleteUser(int id)
+        {
+            LoginDto user = _repository.GetUserById(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            _repository.DeleteUser(user);
             _repository.SaveChanges();
 
             return NoContent();

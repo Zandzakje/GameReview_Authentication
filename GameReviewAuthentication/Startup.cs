@@ -28,6 +28,14 @@ namespace GameReviewAuthentication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("umuPolicy", policy =>
+                {
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:44345", "http://localhost:44345").AllowCredentials();
+                });
+            });
+
             services.AddDbContext<AuthenticationDbContext>(opt => opt.UseSqlServer
                 (Configuration.GetConnectionString("LoginConnection")));
 
@@ -49,6 +57,8 @@ namespace GameReviewAuthentication
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("umuPolicy");
 
             app.UseAuthorization();
 

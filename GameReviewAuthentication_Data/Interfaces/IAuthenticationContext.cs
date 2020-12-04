@@ -11,6 +11,7 @@ namespace GameReviewAuthentication_Data.Interfaces
         LoginDto GetUserByInput(string username, string password);
         void CreateUser(LoginDto user);
         void UpdateUser(LoginDto user);
+        void DeleteUser(LoginDto user);
         bool SaveChanges();
     }
 }

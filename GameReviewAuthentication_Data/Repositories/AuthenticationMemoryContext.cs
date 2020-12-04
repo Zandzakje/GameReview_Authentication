@@ -34,12 +34,17 @@ namespace GameReviewAuthentication_Data.Repositories
 
         public void UpdateUser(LoginDto user)
         {
-            LoginDto findUser = mockDb.Find(a => a.UserId == user.UserId);
-            if(findUser != null)
+            LoginDto getUser = mockDb.Find(a => a.UserId == user.UserId);
+            if(getUser != null)
             {
-                findUser.Username = user.Username;
-                findUser.Password = user.Password;
+                getUser.Username = user.Username;
+                getUser.Password = user.Password;
             }
+        }
+
+        public void DeleteUser(LoginDto user)
+        {
+            throw new NotImplementedException();
         }
 
         public bool SaveChanges()
