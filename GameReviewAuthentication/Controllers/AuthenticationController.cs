@@ -43,9 +43,10 @@ namespace GameReviewAuthentication.Controllers
 
         //GET api/authentication/getUserByInput?username=a&password=b
         //GET api/authentication
+        //POST api/authentication/login
         [EnableCors]
         [HttpPost("login")]
-        public ActionResult<Login> GetUserByInput([FromBody]Login user)
+        public ActionResult<Login> GetUserByInput(Login user)
         {
             LoginDto result = _repository.GetUserByInput(user.Username, user.Password);
             Login matchingUser;
