@@ -8,6 +8,7 @@ using GameReviewAuthentication_Data.Repositories;
 using GameReviewAuthentication_Data.Dtos;
 using GameReviewAuthentication_Data.Interfaces;
 using Microsoft.AspNetCore.Cors;
+using GameReviewAuthentication_Logic.Logic;
 
 namespace GameReviewAuthentication.Controllers
 {
@@ -41,8 +42,6 @@ namespace GameReviewAuthentication.Controllers
             return matchingUser;
         }
 
-        //GET api/authentication/getUserByInput?username=a&password=b
-        //GET api/authentication
         //POST api/authentication/login
         [EnableCors]
         [HttpPost("login")]
@@ -50,14 +49,17 @@ namespace GameReviewAuthentication.Controllers
         {
             LoginDto result = _repository.GetUserByInput(user.Username, user.Password);
             Login matchingUser;
+            IActionResult response = Unauthorized();
+
             if (result != null)
             {
                 matchingUser = new Login(result.UserId, result.Username, result.Administrator);
+                AuthenticationLogic authenticationLogic = new AuthenticationLogic();
+                string tokenStr = authenticationLogic.GenerateJSONWebToken(matchingUser.UserId, matchingUser.Username, matchingUser.Password);
+                response = Ok(new { token = tokenStr });
             }
-            else
-            {
-                matchingUser = new Login();
-            }
+
+            matchingUser = new Login();
             return matchingUser;
         }
 

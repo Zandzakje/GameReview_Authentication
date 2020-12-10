@@ -16,10 +16,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\GameReviewAuthentication_Data\GameReviewAuthentication_Data.csproj" />
+    <ProjectReference Include="..\GameReviewAuthentication_Logic\GameReviewAuthentication_Logic.csproj" />
   </ItemGroup>
 
 
