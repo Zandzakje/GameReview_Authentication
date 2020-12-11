@@ -34,7 +34,12 @@ namespace GameReviewAuthentication
                 {
                     policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:44345", "http://localhost:44345").AllowCredentials();
                 });
+
+                options.AddPolicy("jwtPolicy", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials().Build());
+                
             });
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
 
             services.AddDbContext<AuthenticationDbContext>(opt => opt.UseSqlServer
                 (Configuration.GetConnectionString("LoginConnection")));
