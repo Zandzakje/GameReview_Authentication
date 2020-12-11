@@ -39,7 +39,7 @@ namespace GameReviewAuthentication
                 
             });
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
 
             services.AddDbContext<AuthenticationDbContext>(opt => opt.UseSqlServer
                 (Configuration.GetConnectionString("LoginConnection")));
