@@ -13,13 +13,9 @@ namespace GameReviewAuthentication_Logic.Logic
     public class AuthenticationLogic
     {
         private readonly IConfiguration _config;
+        //public IConfiguration _config { get; }
 
-        public AuthenticationLogic()
-        {
-
-        }
-
-        private AuthenticationLogic(IConfiguration config)
+        public AuthenticationLogic(IConfiguration config)
         {
             _config = config;
         }

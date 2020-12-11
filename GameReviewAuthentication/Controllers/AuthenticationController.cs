@@ -9,6 +9,9 @@ using GameReviewAuthentication_Data.Dtos;
 using GameReviewAuthentication_Data.Interfaces;
 using Microsoft.AspNetCore.Cors;
 using GameReviewAuthentication_Logic.Logic;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 
 namespace GameReviewAuthentication.Controllers
 {
@@ -19,10 +22,12 @@ namespace GameReviewAuthentication.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationContext _repository;
+        public IConfiguration _config;
 
-        public AuthenticationController(IAuthenticationContext repository)
+        public AuthenticationController(IAuthenticationContext repository, IConfiguration config)
         {
             _repository = repository;
+            _config = config;
         }
 
         //GET apí/authentication/{id}
@@ -41,26 +46,48 @@ namespace GameReviewAuthentication.Controllers
             }
             return matchingUser;
         }
-
         //POST api/authentication/login
         [EnableCors]
         [HttpPost("login")]
-        public ActionResult<Login> GetUserByInput(Login user)
+        public ActionResult/*<Login>*/ GetUserByInput(Login user)
         {
             LoginDto result = _repository.GetUserByInput(user.Username, user.Password);
             Login matchingUser;
-            IActionResult response = Unauthorized();
+            ActionResult response = Unauthorized();
 
             if (result != null)
             {
                 matchingUser = new Login(result.UserId, result.Username, result.Administrator);
-                AuthenticationLogic authenticationLogic = new AuthenticationLogic();
+                AuthenticationLogic authenticationLogic = new AuthenticationLogic(_config);
                 string tokenStr = authenticationLogic.GenerateJSONWebToken(matchingUser.UserId, matchingUser.Username, matchingUser.Password);
                 response = Ok(new { token = tokenStr });
+                return response;
             }
 
             matchingUser = new Login();
-            return matchingUser;
+            //return matchingUser;
+            return response;
+        }
+
+        // test ivm tutorial, later weghalen
+        //POST api/authentication/Post
+        [Authorize]
+        [HttpPost("Post")]
+        public string Post()
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            List<Claim> claim = identity.Claims.ToList();
+            string username = claim[1].Value;
+            return "User currently logged in: " + username;
+        }
+
+        // test ivm tutorial, later weghalen
+        //GET api/authentication/GetValue
+        [Authorize]
+        [HttpGet("GetValue")]
+        public ActionResult <IEnumerable<string>> Get()
+        {
+            return new string[] { "Value1", "Value2", "Value3" };
         }
 
         //POST api/authentication
