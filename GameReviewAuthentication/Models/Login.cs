@@ -20,11 +20,12 @@ namespace GameReviewAuthentication.Models
             Password = password;
         }
 
-        public Login(int userId, string username, int administrator)
+        public Login(int userId, string username, int administrator, string token)
         {
             UserId = userId;
             Username = username;
             Administrator = administrator;
+            Token = token;
         }
 
         public Login()

@@ -46,26 +46,22 @@ namespace GameReviewAuthentication.Controllers
             }
             return matchingUser;
         }
+
         //POST api/authentication/login
         [EnableCors]
         [HttpPost("login")]
         public ActionResult/*<Login>*/ GetUserByInput(Login user)
         {
             LoginDto result = _repository.GetUserByInput(user.Username, user.Password);
-            Login matchingUser;
-            ActionResult response = Unauthorized();
+            ActionResult response = NotFound();
 
             if (result != null)
             {
-                matchingUser = new Login(result.UserId, result.Username, result.Administrator);
-                AuthenticationLogic authenticationLogic = new AuthenticationLogic(_config);
-                string tokenStr = authenticationLogic.GenerateJSONWebToken(matchingUser.UserId, matchingUser.Username, matchingUser.Password);
-                response = Ok(new { token = tokenStr });
+                Login matchingUser = new Login(result.UserId, result.Username, result.Administrator, result.Token);
+                response = Ok(new { token = matchingUser.Token });
                 return response;
             }
 
-            matchingUser = new Login();
-            //return matchingUser;
             return response;
         }
 
@@ -92,20 +88,22 @@ namespace GameReviewAuthentication.Controllers
 
         //POST api/authentication
         [HttpPost]
-        public ActionResult<Login> CreateUser(Register potentialUser)
+        public ActionResult<Login> CreateUser(Register newUser)
         {
-            if (potentialUser.Password != potentialUser.ConfirmPassword)
+            if (newUser.Password != newUser.ConfirmPassword || !ModelState.IsValid)
             {
                 return NotFound();
             }
 
-            LoginDto user = new LoginDto(potentialUser.Username, potentialUser.Password);
-            Login tempUser = new Login(potentialUser.Username, potentialUser.Password);
+            AuthenticationLogic authenticationLogic = new AuthenticationLogic(_config);
+            string token = authenticationLogic.GenerateJSONWebToken(newUser.Username);
+
+            LoginDto user = new LoginDto(newUser.Username, newUser.Password, token);
+            Login tempUser = new Login(newUser.Username, newUser.Password);
 
             _repository.CreateUser(user);
             _repository.SaveChanges();
 
-            //return tempUser;
             return CreatedAtRoute(/*nameof(GetUserById)*/"GetUserById", new { Id = tempUser.UserId }, tempUser);
         }
 

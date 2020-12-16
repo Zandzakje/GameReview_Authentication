@@ -19,6 +19,13 @@ namespace GameReviewAuthentication_Data.Dtos
             Password = password;
         }
 
+        public LoginDto(string username, string password, string token)
+        {
+            Username = username;
+            Password = password;
+            Token = token;
+        }
+
         public LoginDto(int userId, string username, string password, int administrator)
         {
             UserId = userId;

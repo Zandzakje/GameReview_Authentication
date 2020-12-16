@@ -20,7 +20,7 @@ namespace GameReviewAuthentication_Logic.Logic
             _config = config;
         }
 
-        public string GenerateJSONWebToken(int userId, string username, string password)
+        public string GenerateJSONWebToken(/*int userId, */string username/*, string password*/)
         {
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -28,7 +28,7 @@ namespace GameReviewAuthentication_Logic.Logic
             List<Claim> claims = new List<Claim>
             //var claims = new []
             { 
-                new Claim(JwtRegisteredClaimNames.NameId, userId.ToString()),
+                //new Claim(JwtRegisteredClaimNames.NameId, userId.ToString()),
                 new Claim(JwtRegisteredClaimNames.Sub, username),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
@@ -37,7 +37,7 @@ namespace GameReviewAuthentication_Logic.Logic
                 issuer: _config["Jwt:Issuer"],
                 audience: _config["Jwt:Issuer"],
                 claims,
-                expires: DateTime.Now.AddMinutes(120),
+                //expires: DateTime.Now.AddMinutes(120),
                 signingCredentials: credentials
             );
 

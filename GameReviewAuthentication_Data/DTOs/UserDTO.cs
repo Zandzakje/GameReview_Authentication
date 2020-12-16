@@ -16,6 +16,8 @@ namespace GameReviewAuthentication_Data.Dtos
         [Required]
         public string Password { get; set; }
 
+        public string Token { get; set; }
+
         public int Administrator { get; set; }
     }
 }
